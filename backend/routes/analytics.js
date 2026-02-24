@@ -68,7 +68,7 @@ function getAnalyticsStatements() {
         COALESCE(SUM(total_tokens_in + total_tokens_out), 0) as total_tokens
       FROM sessions
       GROUP BY DATE(started_at)
-      ORDER BY day ASC
+      ORDER BY day DESC
       LIMIT 90`
     ),
     hourlyActivity: db.prepare(
@@ -178,7 +178,7 @@ router.get("/", (req, res) => {
         avg_duration_ms: Math.round((m.avg_duration_ms || 0) * 100) / 100,
       })),
       event_types: eventTypes,
-      sessions_over_time: sessionsOverTime,
+      sessions_over_time: sessionsOverTime.reverse(),
       hourly_activity: hourlyActivity,
     });
   } catch (err) {
