@@ -369,6 +369,34 @@ describe("GET /sessions/by-tag/:tag", () => {
     const res = await request(app).get("/sessions/by-tag/<script>");
     expect(res.status).toBe(400);
   });
+
+  test("should return all tags for each session (batch fetch)", async () => {
+    // Tag sessions with multiple tags including the search tag
+    await request(app)
+      .post("/sessions/sess-1/tags")
+      .send({ tags: ["production", "v2", "important"] });
+    await request(app)
+      .post("/sessions/sess-2/tags")
+      .send({ tags: ["production", "staging"] });
+    await request(app)
+      .post("/sessions/sess-3/tags")
+      .send({ tags: ["staging"] });
+
+    const res = await request(app).get("/sessions/by-tag/production");
+
+    expect(res.status).toBe(200);
+    expect(res.body.sessions).toHaveLength(2);
+
+    // Each session should have ALL its tags, not just the search tag
+    const sess1 = res.body.sessions.find((s) => s.session_id === "sess-1");
+    const sess2 = res.body.sessions.find((s) => s.session_id === "sess-2");
+
+    expect(sess1).toBeDefined();
+    expect(sess1.tags).toEqual(["production", "v2", "important"]);
+
+    expect(sess2).toBeDefined();
+    expect(sess2.tags).toEqual(["production", "staging"]);
+  });
 });
 
 // ── Tag Filtering on Session List ───────────────────────────────────

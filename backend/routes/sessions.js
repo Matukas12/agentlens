@@ -99,11 +99,28 @@ router.get("/by-tag/:tag", (req, res) => {
     const sessions = stmts.sessionsByTag.all(tag, limit, offset);
     const { count: total } = stmts.sessionsByTagCount.get(tag);
 
-    // Attach tags to each session
+    // Batch-fetch all tags for the returned sessions in one query
+    // instead of N separate getTagsForSession calls (N+1 → 2 queries)
+    const sessionIds = sessions.map((s) => s.session_id);
+    const tagMap = {};
+    if (sessionIds.length > 0) {
+      const placeholders = sessionIds.map(() => "?").join(", ");
+      const batchStmt = getDb().prepare(
+        `SELECT session_id, tag FROM session_tags
+         WHERE session_id IN (${placeholders})
+         ORDER BY created_at ASC`
+      );
+      const allTags = batchStmt.all(...sessionIds);
+      for (const row of allTags) {
+        if (!tagMap[row.session_id]) tagMap[row.session_id] = [];
+        tagMap[row.session_id].push(row.tag);
+      }
+    }
+
     const enriched = sessions.map((s) => ({
       ...s,
       metadata: safeJsonParse(s.metadata),
-      tags: stmts.getTagsForSession.all(s.session_id).map((t) => t.tag),
+      tags: tagMap[s.session_id] || [],
     }));
 
     res.json({ sessions: enriched, total, limit, offset, tag });
