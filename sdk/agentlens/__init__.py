@@ -6,6 +6,7 @@ from agentlens.decorators import track_agent, track_tool_call
 from agentlens.transport import Transport
 from agentlens.alerts import AlertRule, AlertManager, MetricAggregator, Alert, Severity, Condition
 from agentlens.health import HealthScorer, HealthReport, HealthGrade, HealthThresholds, MetricScore
+from agentlens.anomaly import AnomalyDetector, AnomalyDetectorConfig, Anomaly, AnomalyKind, AnomalySeverity, AnomalyReport, MetricBaseline
 
 __version__ = "0.1.0"
 __all__ = [
@@ -36,6 +37,13 @@ __all__ = [
     "HealthGrade",
     "HealthThresholds",
     "MetricScore",
+    "AnomalyDetector",
+    "AnomalyDetectorConfig",
+    "Anomaly",
+    "AnomalyKind",
+    "AnomalySeverity",
+    "AnomalyReport",
+    "MetricBaseline",
 ]
 
 _tracker: AgentTracker | None = None
