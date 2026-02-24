@@ -5,6 +5,7 @@ from agentlens.tracker import AgentTracker
 from agentlens.decorators import track_agent, track_tool_call
 from agentlens.transport import Transport
 from agentlens.alerts import AlertRule, AlertManager, MetricAggregator, Alert, Severity, Condition
+from agentlens.health import HealthScorer, HealthReport, HealthGrade, HealthThresholds, MetricScore
 
 __version__ = "0.1.0"
 __all__ = [
@@ -30,6 +31,11 @@ __all__ = [
     "Alert",
     "Severity",
     "Condition",
+    "HealthScorer",
+    "HealthReport",
+    "HealthGrade",
+    "HealthThresholds",
+    "MetricScore",
 ]
 
 _tracker: AgentTracker | None = None

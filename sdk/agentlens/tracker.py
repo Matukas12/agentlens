@@ -6,6 +6,7 @@ from typing import Any
 
 from agentlens.models import AgentEvent, ToolCall, DecisionTrace, Session
 from agentlens.transport import Transport
+from agentlens.health import HealthScorer, HealthReport, HealthThresholds
 
 
 class AgentTracker:
@@ -56,6 +57,31 @@ class AgentTracker:
             self.transport.flush()
             if sid == self._current_session_id:
                 self._current_session_id = None
+
+    def health_score(
+        self,
+        session_id: str | None = None,
+        thresholds: HealthThresholds | None = None,
+    ) -> HealthReport:
+        """Score the health of a session.
+
+        Args:
+            session_id: Session to score. Defaults to the current session.
+            thresholds: Optional custom thresholds for scoring.
+
+        Returns:
+            A :class:`HealthReport` with overall score, grade, per-metric
+            breakdown, and recommendations.
+
+        Raises:
+            RuntimeError: If the session is not found.
+        """
+        sid = session_id or self._current_session_id
+        if not sid or sid not in self.sessions:
+            raise RuntimeError("Session not found")
+        session = self.sessions[sid]
+        scorer = HealthScorer(thresholds)
+        return scorer.score_session(session)
 
     def track(
         self,
