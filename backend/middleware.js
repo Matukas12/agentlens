@@ -8,6 +8,7 @@
 const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const crypto = require("crypto");
 
 // ── Helmet (security headers) ───────────────────────────────────────
 
@@ -70,11 +71,23 @@ function createIngestLimiter() {
 
 function createApiKeyAuth() {
   const API_KEY = process.env.AGENTLENS_API_KEY || null;
+  const API_KEY_BUF = API_KEY ? Buffer.from(API_KEY) : null;
 
   function authenticateApiKey(req, res, next) {
-    if (!API_KEY) return next(); // dev mode
+    if (!API_KEY_BUF) return next(); // dev mode
     const providedKey = req.headers["x-api-key"];
-    if (!providedKey || providedKey !== API_KEY) {
+    if (!providedKey) {
+      return res.status(401).json({ error: "Unauthorized: invalid or missing API key" });
+    }
+    const providedBuf = Buffer.from(String(providedKey));
+    // Constant-time comparison to prevent timing attacks.
+    // timingSafeEqual requires equal-length buffers; if lengths differ
+    // we still perform a comparison against the expected key to avoid
+    // leaking length information through response time differences.
+    if (
+      providedBuf.length !== API_KEY_BUF.length ||
+      !crypto.timingSafeEqual(providedBuf, API_KEY_BUF)
+    ) {
       return res.status(401).json({ error: "Unauthorized: invalid or missing API key" });
     }
     next();
